@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <configXml>
+    <PreferenceList>
+      <!-- PWA Configuration -->
+      <Preference id="VoiceAIPWA" domain="WebApp">
+        <Key>DisplayName</Key>
+        <String>Voice AI Chat</String>
+        <Key>Identifier</Key>
+        <String>com.voiceaichat.pwa</String>
+        <Key>WebsiteURL</Key>
+        <String>https://4pjmqvw4nky6.space.minimax.io</String>
+        <Key>Icon</Key>
+        <String>/icons/icon-512x512.svg</String>
+        <Key>IsFullScreen</Key>
+        <True/>
+        <Key>AllowJavaScript</Key>
+        <True/>
+      </Preference>
+
+      <!-- iOS Web App Configuration -->
+      <Preference id="iOSWebApp" domain="apple-mobile-web-app">
+        <Key>StatusBarStyle</Key>
+        <String>black-translucent</String>
+        <Key>WebAppCapable</Key>
+        <True/>
+        <Key>ViewportFit</Key>
+        <String>cover</String>
+      </Preference>
+    </PreferenceList>
+  </configXml>
+</configuration>

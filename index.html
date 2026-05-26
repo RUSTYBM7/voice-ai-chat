@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
+    <!-- Primary Meta Tags -->
+    <title>Voice AI Chat - AI-Powered Voice Assistant</title>
+    <meta name="title" content="Voice AI Chat - AI-Powered Voice Assistant" />
+    <meta name="description" content="Intelligent voice assistant powered by AI with ElevenLabs voice synthesis and MiniMax AI. Chat, generate speech, and more." />
+    <meta name="keywords" content="AI, voice, chat, ElevenLabs, MiniMax, speech synthesis, assistant" />
+    <meta name="author" content="Voice AI Chat" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Theme & Color -->
+    <meta name="theme-color" content="#09090b" />
+    <meta name="msapplication-TileColor" content="#09090b" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- PWA / Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-mobile-web-app-title" content="Voice AI Chat" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/icons/icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/icons/icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/icons/icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/icons/icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180x180.png" />
+
+    <!-- iOS Splash Screens -->
+    <link rel="apple-touch-startup-image" href="/screenshots/splash-2732x2732.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/screenshots/splash-2388x1668.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/screenshots/splash-2360x1640.png" media="(device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/screenshots/splash-2224x1668.png" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/screenshots/splash-2048x1536.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/screenshots/splash-2001x2001.png" media="(device-width: 1000px) and (device-height: 1000px) and (-webkit-device-pixel-ratio: 2)" />
+
+    <!-- iPhone 17 Pro Max (430x932) -->
+    <link rel="apple-touch-startup-image" href="/screenshots/splash-430x932.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)" />
+
+    <!-- iPhone 15 Pro / 16 Pro -->
+    <link rel="apple-touch-startup-image" href="/screenshots/splash-393x852.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 2.625)" />
+
+    <!-- iPhone 14 Pro Max -->
+    <link rel="apple-touch-startup-image" href="/screenshots/splash-428x926.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)" />
+
+    <!-- iPhone 13 Pro Max -->
+    <link rel="apple-touch-startup-image" href="/screenshots/splash-390x844.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" />
+
+    <!-- iPhone SE (3rd gen) -->
+    <link rel="apple-touch-startup-image" href="/screenshots/splash-375x667.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://4pjmqvw4nky6.space.minimax.io" />
+    <meta property="og:title" content="Voice AI Chat - AI-Powered Voice Assistant" />
+    <meta property="og:description" content="Intelligent voice assistant powered by AI with ElevenLabs voice synthesis and MiniMax AI." />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:site_name" content="Voice AI Chat" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://4pjmqvw4nky6.space.minimax.io" />
+    <meta property="twitter:title" content="Voice AI Chat - AI-Powered Voice Assistant" />
+    <meta property="twitter:description" content="Intelligent voice assistant powered by AI with ElevenLabs voice synthesis and MiniMax AI." />
+    <meta property="twitter:image" content="/og-image.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- iOS Safe Area -->
+    <style>
+      html, body {
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Register Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('SW registered:', registration.scope);
+            })
+            .catch(error => {
+              console.log('SW registration failed:', error);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>

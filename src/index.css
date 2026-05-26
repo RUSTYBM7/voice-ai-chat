@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #09090b;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* iOS Safe Area Support */
+@supports (padding: env(safe-area-inset-top)) {
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-area-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  .safe-area-right {
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* Notch & Dynamic Island Support for iPhone 17 Pro Max */
+@supports (padding: max(0px, env(safe-area-inset-top))) {
+  .notch-aware {
+    padding-top: max(12px, env(safe-area-inset-top));
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+}
+
+/* Mobile Responsive - iPhone 17 Pro Max & general phones */
+@media (max-width: 768px) {
+  html, body, #root {
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  ::-webkit-scrollbar {
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Small phones (iPhone SE, older models) */
+@media (max-width: 375px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-violet-600 hover:bg-violet-500 text-white px-4 py-2.5 rounded-xl font-medium flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-2.5 rounded-xl font-medium flex items-center justify-center gap-2 transition-colors;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3.5 bg-zinc-800 border border-zinc-700 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500/50 transition-all;
+  }
+
+  .card {
+    @apply bg-zinc-900/50 border border-zinc-800 rounded-2xl;
+  }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Prevent text selection on UI elements */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Smooth animations for mobile */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Loading animation */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Safe area content container */
+.safe-area-container {
+  height: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Mobile input optimizations */
+@media (max-width: 768px) {
+  input, textarea {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+    -webkit-appearance: none;
+  }
+
+  textarea {
+    resize: none;
+  }
+}
+
+/* Status bar area for iPhone with notch */
+.status-bar-area {
+  height: env(safe-area-inset-top, 0px);
+  min-height: 0px;
+}
+
+/* Home indicator area for iPhone */
+.home-indicator-area {
+  height: env(safe-area-inset-bottom, 0px);
+  min-height: 0px;
+}

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>PayloadIdentifier</key>
+  <string>com.voiceaichat.app</string>
+  <key>PayloadType</key>
+  <string>com.apple.configurationprofile.managed</string>
+  <key>PayloadUUID</key>
+  <string>550C8A12-7B3E-4F9A-B5C1-8E6D9A2F3C7B</string>
+  <key>PayloadVersion</key>
+  <integer>1</integer>
+  <key>PayloadDisplayName</key>
+  <string>Voice AI Chat</string>
+  <key>PayloadDescription</key>
+  <string>Configuration profile for Voice AI Chat PWA on iOS 17</string>
+  <key>PayloadOrganization</key>
+  <string>Voice AI Chat</string>
+  <key>PayloadRemovalDisallowed</key>
+  <false/>
+  <key>PayloadScope</key>
+  <string>User</string>
+  <key>Content</key>
+  <dict>
+    <key>WebApplication</key>
+    <dict>
+      <key>ApplicationID</key>
+      <string>com.voiceaichat.app</string>
+      <key>BundleIdentifier</key>
+      <string>com.voiceaichat.app</string>
+      <key>DefaultTitle</key>
+      <string>Voice AI Chat</string>
+      <key>Title</key>
+      <string>Voice AI Chat</string>
+      <key>Icons</key>
+      <array>
+        <dict>
+          <key>Type</key>
+          <string>iphone</string>
+          <key>Size</key>
+          <string>60x60</string>
+          <key>Path</key>
+          <string>/icons/icon-180x180.png</string>
+        </dict>
+        <dict>
+          <key>Type</key>
+          <string>ipad</string>
+          <key>Size</key>
+          <string>76x76</string>
+          <key>Path</key>
+          <string>/icons/icon-152x152.png</string>
+        </dict>
+      </array>
+      <key>LaunchImage</key>
+      <dict>
+        <key>Portrait</key>
+        <string>/screenshots/launch-portrait.png</string>
+        <key>PortraitUpsideDown</key>
+        <string>/screenshots/launch-portrait.png</string>
+        <key>Landscape</key>
+        <string>/screenshots/launch-landscape.png</string>
+        <key>LandscapeUpsideDown</key>
+        <string>/screenshots/launch-landscape.png</string>
+      </dict>
+    </dict>
+    <key>AppDomains</key>
+    <array>
+      <string>4pjmqvw4nky6.space.minimax.io</string>
+    </array>
+    <key>AllowWebApps</key>
+    <true/>
+  </dict>
+</dict>
+</plist>

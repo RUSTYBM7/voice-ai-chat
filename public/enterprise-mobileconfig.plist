@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>PayloadIdentifier</key>
+  <string>com.voiceaichat.enterprise</string>
+  <key>PayloadType</key>
+  <string>com.apple.configurationprofile.managed</string>
+  <key>PayloadUUID</key>
+  <string>A7B9C5D3-2E8F-4A1B-9C6D-5F8E7A9B2C4D</string>
+  <key>PayloadVersion</key>
+  <integer>1</integer>
+  <key>PayloadDisplayName</key>
+  <string>Voice AI Chat - Enterprise</string>
+  <key>PayloadDescription</key>
+  <string>Enterprise configuration for Voice AI Chat deployment with MDM</string>
+  <key>PayloadOrganization</key>
+  <string>Voice AI Chat Enterprise</string>
+  <key>PayloadRemovalDisallowed</key>
+  <false/>
+  <key>PayloadScope</key>
+  <string>Device</string>
+  <key>Content</key>
+  <dict>
+    <key>WebClip</key>
+    <dict>
+      <key>FullScreen</key>
+      <true/>
+      <key>Icon</key>
+      <data>base64-encoded-icon</data>
+      <key>Label</key>
+      <string>Voice AI Chat</string>
+      <key>URL</key>
+      <string>https://4pjmqvw4nky6.space.minimax.io</string>
+      <key>IsRemovable</key>
+      <false/>
+    </dict>
+    <key>Restrictions</key>
+    <dict>
+      <key>allowWebClips</key>
+      <true/>
+      <key>allowAppInstallation</key>
+      <true/>
+    </dict>
+    <key>AppDomains</key>
+    <array>
+      <string>4pjmqvw4nky6.space.minimax.io</string>
+      <string>minimax.io</string>
+    </array>
+  </dict>
+</dict>
+</plist>
