@@ -9,8 +9,12 @@ import {
   Bot,
   Zap,
   X,
+  User,
+  LogIn,
+  Sparkles,
 } from 'lucide-react';
 import type { Conversation, Voice, ElevenLabsSettings } from '../types';
+import type { SkillType } from '../types';
 
 interface SidebarProps {
   conversations: Conversation[];
@@ -25,10 +29,25 @@ interface SidebarProps {
   onVoiceSettingsChange: (settings: ElevenLabsSettings) => void;
   isConnected: boolean;
   onOpenSettings: () => void;
+  onOpenWorkforce: () => void;
+  onOpenLogin: () => void;
+  user: { id: string; email?: string } | null;
+  currentSkill: SkillType;
+  skillLabel: string;
   isMobile?: boolean;
   sidebarOpen?: boolean;
   onCloseSidebar?: () => void;
 }
+
+const SKILL_COLORS: Record<string, string> = {
+  general: 'from-violet-600 to-violet-400',
+  coding: 'from-blue-600 to-blue-400',
+  writing: 'from-green-600 to-green-400',
+  chat: 'from-pink-600 to-pink-400',
+  roleplay: 'from-orange-600 to-orange-400',
+  voice_clone: 'from-cyan-600 to-cyan-400',
+  data_analysis: 'from-yellow-600 to-yellow-400',
+};
 
 export function Sidebar({
   conversations,
@@ -43,6 +62,11 @@ export function Sidebar({
   onVoiceSettingsChange,
   isConnected,
   onOpenSettings,
+  onOpenWorkforce,
+  onOpenLogin,
+  user,
+  currentSkill,
+  skillLabel,
   isMobile = false,
   sidebarOpen = true,
   onCloseSidebar,
@@ -67,7 +91,13 @@ export function Sidebar({
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
               <Bot className="w-5 h-5" />
             </div>
-            <h1 className="font-semibold">Voice AI Chat</h1>
+            <div>
+              <h1 className="font-semibold">Voice AI Chat</h1>
+              <div className="flex items-center gap-1.5">
+                <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-amber-500'}`} />
+                <span className="text-xs text-zinc-500">{isConnected ? 'Connected' : 'Demo'}</span>
+              </div>
+            </div>
           </div>
           <button
             onClick={onCloseSidebar}
@@ -114,6 +144,55 @@ export function Sidebar({
           </button>
         </div>
       )}
+
+      {/* User / Login Section */}
+      <div className="p-4 border-b border-zinc-800">
+        {user ? (
+          <div className="flex items-center gap-3 p-3 bg-zinc-800/50 rounded-xl">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
+              <User className="w-5 h-5" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-medium truncate">{user.email || 'User'}</div>
+              <div className="text-xs text-zinc-500">Authenticated</div>
+            </div>
+          </div>
+        ) : (
+          <button
+            onClick={onOpenLogin}
+            className="w-full py-2.5 px-4 bg-violet-600/20 hover:bg-violet-600/30 border border-violet-500/30 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-colors active:scale-95"
+          >
+            <LogIn className="w-4 h-4" /> Sign In
+          </button>
+        )}
+      </div>
+
+      {/* Skills Section */}
+      <div className="p-4 border-b border-zinc-800">
+        <div className="flex items-center justify-between mb-2">
+          <label className="text-xs font-medium text-zinc-500 uppercase tracking-wider">Active Skill</label>
+          <button
+            onClick={onOpenWorkforce}
+            className="text-xs text-violet-400 hover:text-violet-300 flex items-center gap-1"
+          >
+            <Sparkles className="w-3 h-3" /> Change
+          </button>
+        </div>
+        <button
+          onClick={onOpenWorkforce}
+          className={`w-full p-3 rounded-xl bg-gradient-to-r ${SKILL_COLORS[currentSkill] || SKILL_COLORS.general} bg-opacity-20 hover:bg-opacity-30 border border-zinc-700 transition-colors active:scale-98`}
+        >
+          <div className="flex items-center gap-3">
+            <Sparkles className="w-5 h-5" />
+            <div className="flex-1 text-left">
+              <div className="text-sm font-medium">{skillLabel}</div>
+              <div className="text-xs opacity-70">
+                {currentSkill === 'general' ? 'Default mode' : `Specialized for ${currentSkill.replace('_', ' ')}`}
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
 
       {/* Voice Selection */}
       <div className="p-4 border-b border-zinc-800">
@@ -246,12 +325,18 @@ export function Sidebar({
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-zinc-800">
+      <div className="p-4 border-t border-zinc-800 space-y-2">
         <button
           onClick={onOpenSettings}
           className="w-full py-2.5 px-4 bg-zinc-800/50 hover:bg-zinc-800 rounded-xl text-sm flex items-center justify-center gap-2 transition-colors active:scale-95"
         >
           <Zap className="w-4 h-4" /> API Settings
+        </button>
+        <button
+          onClick={onOpenWorkforce}
+          className="w-full py-2.5 px-4 bg-violet-600/20 hover:bg-violet-600/30 border border-violet-500/30 rounded-xl text-sm flex items-center justify-center gap-2 transition-colors active:scale-95"
+        >
+          <Sparkles className="w-4 h-4" /> Workforce
         </button>
       </div>
     </aside>

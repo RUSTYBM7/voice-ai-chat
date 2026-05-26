@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, User, Session } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
@@ -130,4 +130,84 @@ export async function updateConversationTimestamp(conversationId: string) {
     .from('conversations')
     .update({ updated_at: new Date().toISOString() })
     .eq('id', conversationId);
+}
+
+// Auth functions
+export async function signUp(email: string, password: string) {
+  if (!supabase) return { data: null, error: 'Supabase not configured' };
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+
+  return { data, error };
+}
+
+export async function signIn(email: string, password: string) {
+  if (!supabase) return { data: null, error: 'Supabase not configured' };
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  return { data, error };
+}
+
+export async function signOut() {
+  if (!supabase) return { error: 'Supabase not configured' };
+
+  const { error } = await supabase.auth.signOut();
+  return { error };
+}
+
+export async function getCurrentUser(): Promise<User | null> {
+  if (!supabase) return null;
+
+  const { data: { user } } = await supabase.auth.getUser();
+  return user;
+}
+
+export async function getSession(): Promise<Session | null> {
+  if (!supabase) return null;
+
+  const { data: { session } } = await supabase.auth.getSession();
+  return session;
+}
+
+export function onAuthStateChange(callback: (user: User | null) => void) {
+  if (!supabase) return () => {};
+
+  const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+    callback(session?.user ?? null);
+  });
+
+  return () => subscription.unsubscribe();
+}
+
+export async function updateConversationTitle(conversationId: string, title: string) {
+  if (!supabase) return;
+
+  const { error } = await supabase
+    .from('conversations')
+    .update({ title })
+    .eq('id', conversationId);
+
+  if (error) {
+    console.error('Error updating conversation title:', error);
+  }
+}
+
+export async function deleteConversation(conversationId: string) {
+  if (!supabase) return;
+
+  const { error } = await supabase
+    .from('conversations')
+    .delete()
+    .eq('id', conversationId);
+
+  if (error) {
+    console.error('Error deleting conversation:', error);
+  }
 }

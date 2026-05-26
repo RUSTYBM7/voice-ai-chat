@@ -4,10 +4,13 @@ import { WelcomeScreen } from './components/WelcomeScreen';
 import { MessageList } from './components/MessageList';
 import { InputArea } from './components/InputArea';
 import { SettingsModal } from './components/SettingsModal';
-import { supabase, getConversations, getMessages, saveMessage, createConversation } from './lib/supabase';
+import { LoginPage } from './components/LoginPage';
+import { Workforce } from './components/Workforce';
+import { supabase, getConversations, getMessages, saveMessage, createConversation, onAuthStateChange } from './lib/supabase';
 import { minimaxClient } from './lib/minimax';
 import { elevenlabsClient, DEFAULT_VOICES } from './lib/elevenlabs';
 import type { Message, Conversation, Voice, ElevenLabsSettings } from './types';
+import type { SkillType } from './types';
 
 const DEFAULT_VOICE_SETTINGS: ElevenLabsSettings = {
   voiceId: '21m00TScm4G4t8A4LkDy',
@@ -45,6 +48,12 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
+  // Auth & Skills State
+  const [user, setUser] = useState<{ id: string; email?: string } | null>(null);
+  const [showLogin, setShowLogin] = useState(false);
+  const [currentSkill, setCurrentSkill] = useState<SkillType>('general');
+  const [showWorkforce, setShowWorkforce] = useState(false);
+
   // Refs
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -60,11 +69,21 @@ export default function App() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Auth listener
+  useEffect(() => {
+    if (supabase) {
+      const unsubscribe = onAuthStateChange((authUser) => {
+        setUser(authUser ? { id: authUser.id, email: authUser.email } : null);
+      });
+      return unsubscribe;
+    }
+  }, []);
+
   // Load saved API keys
   useEffect(() => {
     const savedMinimaxKey = localStorage.getItem('minimax_api_key');
     const savedElevenlabsKey = localStorage.getItem('elevenlabs_api_key');
-
+    const savedSkill = localStorage.getItem('current_skill') as SkillType;
     if (savedMinimaxKey) {
       setMinimaxApiKey(savedMinimaxKey);
       minimaxClient.setApiKey(savedMinimaxKey);
@@ -74,6 +93,11 @@ export default function App() {
       setElevenlabsApiKey(savedElevenlabsKey);
       elevenlabsClient.setApiKey(savedElevenlabsKey);
       loadVoices(savedElevenlabsKey);
+    }
+
+    if (savedSkill) {
+      setCurrentSkill(savedSkill);
+      minimaxClient.setSkill(savedSkill);
     }
 
     loadConversations();
@@ -119,9 +143,10 @@ export default function App() {
   }, [minimaxApiKey, elevenlabsApiKey]);
 
   const handleNewConversation = async () => {
+    const skillLabel = currentSkill === 'general' ? '' : `[${currentSkill}] `;
     const newConv: Conversation = {
       id: generateId(),
-      title: 'New Chat',
+      title: skillLabel + 'New Chat',
       createdAt: new Date(),
       updatedAt: new Date(),
       messages: [],
@@ -133,7 +158,7 @@ export default function App() {
     setInputText('');
 
     if (supabase) {
-      const saved = await createConversation('New Chat');
+      const saved = await createConversation(newConv.title, user?.id);
       if (saved) {
         newConv.id = saved.id;
       }
@@ -187,9 +212,12 @@ export default function App() {
         content: m.content,
       }));
 
-      chatHistory.push({ role: 'user', content: userMessage.content });
-
-      const response = await minimaxClient.chat(chatHistory);
+      // Use skill-specific chat with system prompt
+      const response = await minimaxClient.chatWithSkill(
+        userMessage.content,
+        currentSkill,
+        chatHistory
+      );
 
       const assistantMessage: Message = {
         id: generateId(),
@@ -245,6 +273,17 @@ export default function App() {
     navigator.clipboard.writeText(content);
   };
 
+  const handleLoginSuccess = (email: string) => {
+    setUser({ id: email, email });
+    setShowLogin(false);
+    loadConversations();
+  };
+
+  const handleSkillSelect = (skill: SkillType) => {
+    setCurrentSkill(skill);
+    localStorage.setItem('current_skill', skill);
+  };
+
   // Recording functions
   const startRecording = async () => {
     try {
@@ -268,8 +307,9 @@ export default function App() {
   const stopRecording = () => {
     if (!mediaRecorderRef.current) return;
 
-    mediaRecorderRef.current.stop();
-    mediaRecorderRef.current.stream.getTracks().forEach(t => t.stop());
+    const recorder = mediaRecorderRef.current;
+    recorder.stop();
+    recorder.stream.getTracks().forEach(t => t.stop());
     setIsRecording(false);
 
     const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
@@ -296,6 +336,16 @@ export default function App() {
         .catch(console.error)
         .finally(() => setIsGenerating(false));
     }
+  };
+
+  const SKILL_LABELS: Record<SkillType, string> = {
+    general: 'General',
+    coding: 'Coding',
+    writing: 'Writing',
+    chat: 'Chat',
+    roleplay: 'Role Play',
+    voice_clone: 'Voice',
+    data_analysis: 'Data'
   };
 
   return (
@@ -327,6 +377,11 @@ export default function App() {
         onVoiceSettingsChange={setVoiceSettings}
         isConnected={isConnected}
         onOpenSettings={() => setShowSettings(true)}
+        onOpenWorkforce={() => setShowWorkforce(true)}
+        onOpenLogin={() => setShowLogin(true)}
+        user={user}
+        currentSkill={currentSkill}
+        skillLabel={SKILL_LABELS[currentSkill]}
         isMobile={isMobile}
         sidebarOpen={sidebarOpen}
         onCloseSidebar={() => setSidebarOpen(false)}
@@ -379,6 +434,22 @@ export default function App() {
         onElevenlabsKeyChange={setElevenlabsApiKey}
         onSave={handleSaveSettings}
         isConnecting={isConnecting}
+      />
+
+      <LoginPage
+        isOpen={showLogin}
+        onClose={() => setShowLogin(false)}
+        onLogin={handleLoginSuccess}
+      />
+
+      <Workforce
+        isOpen={showWorkforce}
+        onClose={() => setShowWorkforce(false)}
+        onSelectSkill={handleSkillSelect}
+        currentSkill={currentSkill}
+        voices={voices}
+        selectedVoiceId={selectedVoiceId}
+        onVoiceChange={setSelectedVoiceId}
       />
     </div>
   );
