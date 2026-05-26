@@ -345,7 +345,18 @@ export default function App() {
     chat: 'Chat',
     roleplay: 'Role Play',
     voice_clone: 'Voice',
-    data_analysis: 'Data'
+    data_analysis: 'Data',
+    bmvoice_ai: 'BMVoiceAI',
+    linux_coder: 'Linux Coder',
+    openclaw: 'OpenClaw',
+    terminal: 'Terminal',
+    automation: 'Automation',
+    elevenlabs_v2: 'ElevenLabs V2',
+    elevenlabs_v3: 'ElevenLabs V3',
+    file_manager: 'Files',
+    webhooks: 'Webhooks',
+    github_integration: 'GitHub',
+    api_tools: 'API Tools'
   };
 
   return (
